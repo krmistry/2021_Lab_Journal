@@ -1,0 +1,66 @@
+---
+title: "2021 Lab Journal"
+author: "Kelly Mistry"
+date: "1/26/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Applied Time Series Analysis course materials
+
+Continuing to work through Applied Time Series Analysis course materials. 
+
+#### Section Five
+
+Box-Jenkins method steps:
+* Model form selection, which entails evaluating stationarity (and if stationarity needs to be adjusted, selecting differencing level), selecting the AR level (p) and selecting the MA level (q)
+* Parameter estimation
+* Model checking
+
+Stationarity tests: Dickey-Fuller (for lag of 0), Augmented Dickey-Fuller (for lags greater than 0) and KPSS
+
+```{r ATSA Section 5, eval = FALSE, echo = FALSE}
+
+```
+
+#### Section Six
+
+```{r ATSA Section 6, eval = FALSE, echo = FALSE}
+```
+
+#### Section Seven
+
+```{r ATSA Section 7, eval = FALSE, echo = FALSE}
+```
+
+#### Section Eight
+
+```{r ATSA Section 8, eval = FALSE, echo = FALSE}
+```
+
+#### Section Nine
+
+```{r ATSA Section 9, eval = FALSE, echo = FALSE}
+```
+
+#### Section Ten
+
+```{r ATSA Section 10, eval = FALSE, echo = FALSE}
+```
+
+#### Section Eleven
+
+```{r ATSA Section 11, eval = FALSE, echo = FALSE}
+```
+
+
+### Indigenous Statistics book notes continued
+
+
+
+
