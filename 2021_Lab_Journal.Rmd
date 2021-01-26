@@ -63,4 +63,8 @@ Stationarity tests: Dickey-Fuller (for lag of 0), Augmented Dickey-Fuller (for l
 
 
 
+### Applied Time Series Analysis Winter 2021 Class Notes
+- Don't include co-linear covariates for MARSS models (multivariate Autoregressiv State Space - same as Vector Autoregressive)
+- 
+
 
