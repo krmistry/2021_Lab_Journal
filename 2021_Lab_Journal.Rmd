@@ -13,14 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Applied Time Series Analysis course materials
 
-Continuing to work through Applied Time Series Analysis course materials. 
+Continuing to work through Applied Time Series Analysis course materials.
 
 #### Section Five
 
-Box-Jenkins method steps:
-* Model form selection, which entails evaluating stationarity (and if stationarity needs to be adjusted, selecting differencing level), selecting the AR level (p) and selecting the MA level (q)
-* Parameter estimation
-* Model checking
+Box-Jenkins method steps: \* Model form selection, which entails evaluating stationarity (and if stationarity needs to be adjusted, selecting differencing level), selecting the AR level (p) and selecting the MA level (q) \* Parameter estimation \* Model checking
 
 Stationarity tests: Dickey-Fuller (for lag of 0), Augmented Dickey-Fuller (for lags greater than 0) and KPSS
 
@@ -58,13 +55,151 @@ Stationarity tests: Dickey-Fuller (for lag of 0), Augmented Dickey-Fuller (for l
 ```{r ATSA Section 11, eval = FALSE, echo = FALSE}
 ```
 
-
 ### Indigenous Statistics book notes continued
 
-
-
 ### Applied Time Series Analysis Winter 2021 Class Notes
-- Don't include co-linear covariates for MARSS models (multivariate Autoregressiv State Space - same as Vector Autoregressive)
-- 
 
+-   Don't include co-linear covariates for MARSS models (multivariate Autoregressiv State Space - same as Vector Autoregressive)
+-   
 
+## VAST project model runs, notes & plans
+
+#### 5/18/2021
+
+-   Set up code to create input objects (with POP only for now):
+
+```{r VAST set up}
+## Load packages and set working directory
+library(TMB)               
+library(VAST)
+library(here)
+library(dplyr)
+
+# current VAST version this code was written for: 3.5.2
+# current TMB version this was written for: 1.7.18
+
+## Set species 
+Species <- c("Sebastes alutus", "Sebastes polyspinis", "Pleurogrammus monopterygius")[1] 
+
+## Set up folder to store results
+results_folder <- paste0(here("results"), "/", Species[1])
+dir.create(results_folder)
+
+## Load raw survey data
+raw_haul <- read.csv(here("data", "haul.csv"))
+
+## Define stock names & NOAA ID numbers
+stock_names <- c("Pacific Ocean Perch" = "Sebastes alutus", "Northern Rockfish" = "Sebastes polyspinis", "Atka Mackerel" = "Pleurogrammus monopterygius")
+my_stock_ids <- c("30060", "30420", "21921")
+names(my_stock_ids) <- stock_names
+
+# Pre-processed data provided by Cecilia \
+CPUE_data <- read.csv(here("data/CPUE.csv"))
+BM_Stratum_data <- read.csv(here("data/BIOMASS_STRATUM.csv"))
+
+# Separating out one species, POP is the first stock
+CPUE_data <- CPUE_data[CPUE_data$SPECIES_CODE == my_stock_ids[1],]
+
+# for POP species, start at 1990, for northern rockfish start at 1984:
+CPUE_data <- CPUE_data[CPUE_data$YEAR >= 1990, ] # for POP
+# CPUE_data <- CPUE_data[CPUE_data$YEAR >= 1984, ] # for northern rockfish
+
+# Adding in start longitude and latitude from the raw_haul data frame into the CPUE_data data frame
+CPUE_data <- merge(CPUE_data, raw_haul[, c("HAULJOIN", "START_LATITUDE", "START_LONGITUDE")], by = "HAULJOIN")
+
+## Separating out the data for VAST input object, which is named Data_Geostat, and has to have these columns
+Data_Geostat <- CPUE_data[, c("WEIGHT", "YEAR", "EFFORT", "START_LATITUDE", "START_LONGITUDE")]
+
+# Renaming column names to the ones required by VAST
+colnames(Data_Geostat) <- c("Catch_KG", "Year", "AreaSwept_km2", "Lat", "Lon")
+```
+
+-   Two versions of the beta term (temporal coefficient) in RhoConfig setting
+
+    -   beta_1 and beta_2 = 0, indicating that the model should treat time as a fixed intercept
+
+    -   beta_1 and beta_2 = 4, indicating that the model should treat the temporal coefficient as an autoregressive 1 process (1 time step)
+
+-   Two distributions for the error distribution that need to be tried out and tested to see which fits the data better, the gamma distribution and the Tweedie distribution; this is controlled by an argument in the make_settings function
+
+    -   ObsModel = c(2, 1) is the gamma distribution for positive catch, delta model for encounter probability
+
+    -   ObsModel = c(10, 2) is tweedie for positive catch and tweedie link for encounter
+
+-   When I run the model, some of the outputs go into the folder that I name, but all of the plots go into the folder that has the script in it. Look deeper in the code to figure out why this is happening and see if I can do a work around and/or reach out to Cecilia and Jim to let them know that this is happening so they can fix it in the next update. Maybe create a github issue about it?
+
+-   Update VAST to most recent edition before I do anything else. My current code (with betas = 4, and set to gamma dist) is:
+
+```{r VAST code 5.18.21}
+# Defining the 3 sub-regions
+strata.limits <- data.frame(STRATA = as.factor(c("Western", "Central", "Eastern")),
+                            west_border = c(-Inf, -159, -147),
+                            east_border = c(-159, -147, Inf))
+
+## Spatial & spatiotemp random effects settings - ***I think these stay the same…
+FieldConfig <- matrix( c("IID","IID","IID",
+                         "IID","IID","IID"), #"IID" = independent 
+                       ncol=2, nrow=3, 
+                       dimnames=list(c("Omega","Epsilon","Beta"), 
+                                     c("Component_1","Component_2")) ) 
+
+#omega = spatial factor for encounter[1] & positive catch[2]
+#epsilon = spatiotemp factor for encounter[1] & positive catch[2]
+
+#beta = number of factors for intercepts (relevant for multivariate models - factor analysis for years)
+
+## Temporal settings  
+RhoConfig_betas <- c(4, 4) #run two versions: 0,0 for intercept and 4,4 for AR1 process
+
+RhoConfig  <- c("Beta1" = RhoConfig_betas[1], "Beta2" = RhoConfig_betas[2], "Epsilon1" = 0, "Epsilon2" = 0)
+
+## beta = autocorr for ecounter [1] & positive catch [2], zero is fixed effect intercept
+## epsilon = spatiotemp variation for encounter[1] & positive catch[2]
+
+settings = make_settings( Version = "VAST_v8_2_0", #.cpp version, not software #e.g., "VAST_v12_0_0"
+                          n_x = 500, #knots aka spatial resolution of our estimates
+                          Region = "User", 
+                          purpose = "index2", #changes default settings
+                          ObsModel= c(2,1), #c(1,1) #c(10,2); (2,1) is gamma for positive catch, delta model for encounter, and (10, 2) is tweedie for positive catch and tweedie link for encounter
+                          ## everything after this is default if you use purpose = "index2"##
+                          FieldConfig = FieldConfig, #spatial & spatiotemp random effects 
+                          RhoConfig = RhoConfig, #temporal settings; default is all 0s, but if I specify this it will be changed here
+                          strata.limits = strata.limits, #define area that you're producing index for
+                          "knot_method" = "grid", #knots in proportion to spatial domain #other option is knot_method="samples"
+                          fine_scale = TRUE, #changes the type of interpolation in your extrapolation area
+                          bias.correct = TRUE, #corrects the index for nonlinear transformation; I want this for the final version, but I can turn it off while I'm messing with the model so it will run faster
+                          use_anisotropy = TRUE) ##correlations decline depend on direction if this argument is TRUE
+
+## Import extrapolation grid, these are available on Jason's Google drive: VASTGAP\Extrapolation Grids
+GOAgrid <- read.csv(file= paste0(here("/data"),"/Extrapolation_Grids/GOAThorsonGrid_Less700m.csv"))
+
+input_grid <- cbind(Lat = GOAgrid$Lat,
+                    Lon = GOAgrid$Lon,
+                    Area_km2 = GOAgrid$Shape_Area/1000000)  # Extrapolation grid area is in 
+                                                            # m^2 & is converted to km^2
+
+gc() #garbage collector
+
+## Run model
+
+fit <- fit_model( "settings"= settings, #all of the settings we set up above
+                 "Lat_i"= Data_Geostat[,'Lat'], #latitude of observation
+                 "Lon_i"= Data_Geostat[,'Lon'],  #longitude of observation
+                 "t_i"= Data_Geostat[,'Year'], #time for each observation
+                 "c_i"= rep(0,nrow(Data_Geostat)), #categories for multivariate analyses; don't actually use this, could comment it out if it doesn't have a fit
+                 "b_i"= Data_Geostat[,'Catch_KG'], #in kg, raw catch or in CPUE per tow
+                 "a_i"= Data_Geostat[,'AreaSwept_km2'], #sampled area for eahc observation
+#                 "v_i"= Data_Geostat[,'Vessel'], #ok to leave in because it's all "missing" in data, so no vessel effects
+                 "input_grid"= input_grid, #only needed if you have a user input extrapolation grid
+                 "optimize_args" =list("lower"=-Inf,"upper"=Inf), #TMB argument (?fit_tmb)
+                 "working_dir" = results_folder)
+
+## Plot results
+plot( fit )
+
+## ## 
+## save the VAST model
+saveRDS(fit,file =  paste0(results_folder, "/", Species,"VASTfit.RDS"))
+```
+
+I'm updating VAST to the most recent version, which is:
