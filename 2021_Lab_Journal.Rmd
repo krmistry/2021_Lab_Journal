@@ -202,4 +202,45 @@ plot( fit )
 saveRDS(fit,file =  paste0(results_folder, "/", Species,"VASTfit.RDS"))
 ```
 
-I'm updating VAST to the most recent version, which is:
+#### 5/20/2021
+
+I'm updating VAST to the most recent version, which is: 3.7.1
+
+-   Tried to run the gamma version (which worked with the 3.5.2 version) and got this error message: Error in (function (b_i, a_i, t_i, c_iz = rep(0, length(b_i)), e_i = c_iz[, : `X1_formula` and `X2_formula`; to use these please use `Version='VAST_v12_0_0'` or higher
+
+    -   Figured out that this was referring to an argument in the make_settings() function, so I made it Version = "VAST_v12_0\_0" (it was previously Version = "VAST_v8_2\_0", in the run above)
+
+-   The second attempt to run the gamma version has been going quite a bit longer than when I previously ran it (about 30 - 40 minutes) - I think I'll wait another hour (its been about an hour now) before stopping it. There haven't been any error messages, although this warning did appear a few lines ago: Note that \`getReportCovariance=FALSE\` causes an error in \`TMB::sdreport\` when no ADREPORTed variables are present
+
+    -   The final line that is currently showing is: Bias correcting 90 derived quantities
+
+    -   It finished, and produced the appropriate objects and plots, so I think it worked fine?
+
+-   First attempt to run with the Tweedie distribution for errors (with ObsModel= c(10,2) in the make_settings function); seems to be going well so far.
+
+    -   As the coefficients are scrolling by (presumably working on convergence?), and occasional message that says NA/NaN function evaluation appears, which didn't happen during any of the gamma runs. Check to see if this is anything to worry about with Cecilia.
+
+    -   It is still running and seems okay, but it is definitely taking longer than the gamma versions - I've added code to record the run time for this script in the future, so I can actually know how long each script takes rather than having just a vague idea.
+
+    -   This message also appears periodically, although it seems to be a general warning rather than a reaction to something in my code: Note that \`getReportCovariance=FALSE\` causes an error in \`TMB::sdreport\` when no ADREPORTed variables are present
+
+    -   The model finished running, and produced all of the result objects and plots that I would expect, although they saved in several seemingly random locations, and some of the plots were named with "Plots" and then the plot title, not sure where that is coming from.
+
+#### 5/21/2021
+
+-   Tried running the model with tweedie distribution and betas = 4 (ObsModel = c(10,2) in make_settings function and "Beta1" = 4 and "Beta2" = 4 in RhoConfig object); it threw this error after starting to run the model and stopped:
+
+```{r 5.21.21 VAST run message}
+### Making TMB object
+Note: Using Makevars in /Users/kellymistry/.R/Makevars 
+make: Nothing to be done for `all'.
+Constructing atomic tweedie_logW
+Constructing atomic tweedie_logW
+List of estimated fixed and random effects:
+
+### Testing model at initial values
+Error in if (any(Gradient0 == 0)) { : 
+  missing value where TRUE/FALSE needed
+```
+
+-   Ask Cecilia what this means, and how to fix it.
