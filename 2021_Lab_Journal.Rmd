@@ -244,3 +244,281 @@ Error in if (any(Gradient0 == 0)) { :
 ```
 
 -   Ask Cecilia what this means, and how to fix it.
+
+    -   Cecilia's response: So it's not a huge issue, but that error implies that the gradient at one of the starting values of that model is 0, so the easiest fix is trying out a new starting value for whatever the issue parameter is, and this can involve some debugging to try and figure out which parameter it is. given that it looks like all that changed between the ones that run and the one that doesnt is the use of the tweedie distribution (I think?) I'd guess it's one of the tweedie model parameters. I'll try and come up with something to show you how to change the starting parameter values, but if you have time to look around it's usually in the fit_model() function.... you have to use some TMB functionality to get at the starting values.
+
+    -   Basically what you need to do to alter parameter starting values is to run 
+
+        > fit \<- fit_model(... , "run_model" = FALSE, ... )
+
+        and then run as an example:
+
+        > fit\$tmb_list\$Obj\$par['lambda1_k']  \<- 0.5
+
+        where 'lambda1_k' will be whatever the parameter is that's causing issues. if you just run  fit\$tmb_list\$Obj\$par you can see all the parameters names and their starting values.
+
+        then you just rerun the fit_model() argument like you normally would (so run_model = TRUE now, the default)
+
+-   I'm going to run the gamma version again, with betas = 0, both to get the run time and to see if I was able to fix the weird file naming things that were happening in the previous tweedie/betas=0 run yesterday
+
+    -   Results from the timer: user 4612.775 system 326.134 elapsed 4965.650. So, 1 hour and 20 minutes, approximately
+
+    -   The weird file name issue is fixed now
+
+-   I also moved the pieces that I keep changing to the top code chunk, so the pieces that might need to be changed are all in one place.
+
+#### 5/26/2021
+
+-   Troubleshooting which parameter is failing to converge in the tweedie/beta_4s version of the model:
+
+    ```{r troubleshooting_5_26_21}
+    # After running the fit function with "run_model" = FALSE so it doesn't actually run yet, these are the parameter starting values:
+    fit$tmb_list$Obj$par 
+      ln_H_input   ln_H_input   L_omega1_z L_epsilon1_z    L_beta1_z    logkappa1 Beta_mean1_c  Beta_rho1_f 
+       0.0000000    0.0000000    1.0000000    1.0000000    1.0000000   -0.1053605    0.0000000    0.0100000 
+      L_omega2_z L_epsilon2_z    L_beta2_z    logkappa2 Beta_mean2_c  Beta_rho2_f    logSigmaM 
+       1.0000000    1.0000000    1.0000000   -0.1053605    0.0000000    0.0100000    1.6094379 
+    ```
+
+-   Tried each of these by themselves:
+
+    -   fit\$tmb_list\$Obj\$par[' ln_H\_input'] \<- 0.5; same error
+
+    -   fit\$tmb_list\$Obj\$par['Beta_mean1_c'] \<- 0.5; same error
+
+    -   fit\$tmb_list\$Obj\$par['Beta_mean2_c'] \<- 0.5; same error
+
+    -   fit\$tmb_list\$Obj\$par['Beta_rho1_f'] \<- 0.5; same error
+
+    -   fit\$tmb_list\$Obj\$par['Beta_rho2_f'] \<- 0.5; same error
+
+    -   fit\$tmb_list\$Obj\$par['Beta_rho1_f'] \<- 0.001; same error
+
+    -   fit\$tmb_list\$Obj\$par['L_omega1_z'] \<- 0.5; same error
+
+    -   fit\$tmb_list\$Obj\$par['L_epsilon1_z'] \<- 0.5; same error
+
+    -   fit\$tmb_list\$Obj\$par['Beta_rho1_f'] \<- 1; same error
+
+    -   
+
+#### 6/2/2021
+
+-   Still haven't gotten the tweedie/beta 4 model to run for POP, so I'm switching to running the models with Northern Rockfish
+
+    -   There were 3 rows with NA values for AreaSwept_km2 - removed these and set it up to automatically check for NAs and delete the rows if there are less than 5 (more than 5 will stop the script and give a warning)
+
+    -   Run time for gamma/beta 0s:
+
+        -   user 4923.311 system 472.596 elapsed 5458.770; 1 hour and 30 minutes total
+
+    -   Run time for gamma/beta 4s:
+
+        -   user 4410.585 system 391.235 elapsed 60403.556; 16 hours and 46 minutes
+
+            -   This one ran overnight, and I'm not sure why it was so much longer than for POP...
+
+    #### 6/3/2021
+
+    -   Tried to run tweedie/beta 0s, and got the same error as for tweedie/beta 4s with POP:
+
+        -   \#\#\# Testing model at initial values Error in if (any(Gradient0 == 0)) { : missing value where TRUE/FALSE needed
+
+        -   Starting parameters are:
+
+            ```{r troubleshooting_NR_Tweedie_beta-0s}
+            # parameter starting values:
+            ln_H_input   ln_H_input     beta1_ft     beta1_ft     beta1_ft     beta1_ft 
+               0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
+                beta1_ft     beta1_ft     beta1_ft     beta1_ft     beta1_ft     beta1_ft 
+               0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
+                beta1_ft     beta1_ft     beta1_ft     beta1_ft     beta1_ft     beta1_ft 
+               0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
+              L_omega1_z L_epsilon1_z    logkappa1     beta2_ft     beta2_ft     beta2_ft 
+               1.0000000    1.0000000   -0.1053605    0.0000000    0.0000000    0.0000000 
+                beta2_ft     beta2_ft     beta2_ft     beta2_ft     beta2_ft     beta2_ft 
+               0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
+                beta2_ft     beta2_ft     beta2_ft     beta2_ft     beta2_ft     beta2_ft 
+               0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
+                beta2_ft   L_omega2_z L_epsilon2_z    logkappa2    logSigmaM 
+               0.0000000    1.0000000    1.0000000   -0.1053605    1.6094379 
+
+            ```
+
+        -   There seem to be quite a lot of parameters, and especially a lot of duplicate parameters, beta1_ft and beta2_ft - is that right?
+
+            -   Running tweedie/beta 0s for POP again, to see how many parameters are in that one and if it matches the above (also to get run time, since I didn't do that the first time)
+
+                -   Run time: user 8559.819 system 430.029 elapsed 9049.576; 2 hours and 30 minutes
+
+                -   Parameters do look similar, with multiple beta1_ft and beta2_ft parameters
+
+    ```{r POP_tweedie_beta-4s}
+    fit$tmb_list$Obj$par
+      ln_H_input   ln_H_input     beta1_ft     beta1_ft     beta1_ft     beta1_ft 
+       0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
+        beta1_ft     beta1_ft     beta1_ft     beta1_ft     beta1_ft     beta1_ft 
+       0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
+        beta1_ft     beta1_ft     beta1_ft     beta1_ft   L_omega1_z L_epsilon1_z 
+       0.0000000    0.0000000    0.0000000    0.0000000    1.0000000    1.0000000 
+       logkappa1     beta2_ft     beta2_ft     beta2_ft     beta2_ft     beta2_ft 
+      -0.1053605    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
+        beta2_ft     beta2_ft     beta2_ft     beta2_ft     beta2_ft     beta2_ft 
+       0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
+        beta2_ft     beta2_ft     beta2_ft   L_omega2_z L_epsilon2_z    logkappa2 
+       0.0000000    0.0000000    0.0000000    1.0000000    1.0000000   -0.1053605 
+       logSigmaM 
+       1.6094379 
+    ```
+
+    -   Tried to run tweedie/beta 4s, and got the same error:
+
+        -   \#\#\# Testing model at initial values Error in if (any(Gradient0 == 0)) { : missing value where TRUE/FALSE needed
+
+        -   Trying different starting parameters:
+
+            -   fit\$tmb_list\$Obj\$par['Beta_rho1_f'] \<- 0.5; same error
+
+            -   fit\$tmb_list\$Obj\$par['Beta_rho2_f'] \<- 0.5; same error\
+
+## Random walk model runs, notes & troubleshooting
+
+#### 6/7/21
+
+-   Working on creating a random walk model script based on the code I got from Kristin, which uses ADMB. I need to check with Cecilia whether it makes a difference if I use ADMB or TMB (I think not significantly, maybe TMB is faster though?), but I want to see if I can get some kind of result from this code today before contacting her
+
+-   I reached out to Kristen about what columns her input data file had ("dat" argument in her function), and she sent me one of her files. The columns are: survey, year, regulatory area, biomass, variance, SE, CV, haul count, catch count and group (because she's working with species that are grouped together for management purposes, so I would have species instead of group). In her email, she said: "The data files are going to be specific to your species. Mine are calculated simply (see attached file), but yours will mostly likely be calculated based on a different model (probably ask the lead assessment author how they calculate those values for your species)."
+
+    -   So I guess I need to ask Cecilia and/or look at the stock assessments to figure this out. Each GOA region has 1 entry per year, so these are clearly calculated values from the raw survey data and I need to know what the model is that was used to calculate them.
+
+    -   I'm checking the SAWG paper to see if the model equations are spelled out here - no such luck
+
+#### 6/11/21
+
+-   Reformatted VAST code in order to run it with less effort while troubleshooting
+
+    -   This meant splitting some things into their own scripts (functions, and initial data formatting)
+
+-   Created a function to systematically test new initial parameter values
+
+    -   First used it for northern rockfish tweedie/betas 4, with 0.5 as the new initial value for each parameter
+
+        -   All of the parameters with value of 0.5 fail to converge with the same error message
+
+    -   Now trying with each parameter = -0.5
+
+        -   All failed to converge
+
+    -   Now trying with each parameter = 10 (just for the hell of it)
+
+        -   All failed to converge
+
+#### 6/15/21
+
+-   After discussing the various roadblocks to both the random walk and VAST model runs with Cecilia via email yesterday, I am prioritizing the gamma version of the model and will set aside the tweedie ones for now. The gamma/beta 0s version worked for the northern rockfish, but not for the gamma/beta 4s version, so I'm trying that one again now.
+
+    -   It seems to be working. Not sure why it didn't converge last time, since nothing about the starting values has changed - not going to argue with success though.
+
+    -   Run time for gamma/beta 4s for northern rockfish is:
+
+        -   user 4645.575 system 435.154 elapsed 6169.533; 1 hour and 45 minutes, total
+
+-   For the random walk roadblock (missing an intermediate calculated step for summing in each year), Cecilia was able to send me this because her team is the one who does this calculation for the stock assessment modelers. Basically, its a sum of the survey catch divided by the area surveyed, but she just sent me the calculated values so I don't have to do it myself. This is a step I want to be sure is clear in my methods description though, as it would be required to recreate the random walk method if anyone wanted to do it. If the above VAST model finishes running relatively soon today, I may have time to see if I can try running this data through the random walk code. Otherwise I'll do it tomorrow.
+
+#### 6/16/21
+
+-   Working on getting the random walk model to run with the data file that Cecilia provided, using Curry's run_re_model function.
+
+    -   No luck - can't figure out the "DateFile" input the function requires for in Curry's code
+
+#### 6/21/21
+
+-   Emailed Kristen with questions that will hopefully let me run her code - she is in crunch time trying to finish her thesis though, so she may not have time to answer before Wednesday. I should also email Curry, although maybe I'll email Cecilia first.
+
+    -   After 2 hours of working with Mark, I got ADMB installed properly (I think), but am still having issues running the model. It compiles successfully, but I get this error when I run run_admb(): "Error: Invalid index 1 used for array range [1984, 2019] in "df1b2variable& df1b2vector::operator () (int i) const".
+
+        Index too low"
+
+        -   This looks like a C++ error message, but I'm not sure what's causing it - I *think* it's the num_idx variable, which Curry says is the "number of survey indices", but it gives the same error message both with 1 (the number of species) or 16 (the number of years)
+
+#### 6/24/21
+
+-   Yesterday I reinstalled ADMB yet again (again after trying several different ways - the one that eventually worked was to [use the source zip](http://www.admb-project.org/downloads/admb-12.2/BuildingSourceUnix.html) and do all of the commands in the terminal), and finally got it to the point that I was able to successfully run the simple example
+
+-   Today, I tried running the RE model with Curry's re.dat file from his github, and the good news is that ADMB appears to have done what it was supposed to do, by successfully compiling the re.tpl file and attempting to run the model.
+
+    -   To run ADMB from the terminal, all I seem to have to do is navigate to the admb-12.2 folder:
+
+        -   **cd admb-12.2**
+
+-   The bad news is that it was unsuccessful, and came up with the following error, which is similar to the ones I was getting with my re.dat file: "Error: Invalid index 1987 used for array range [1, 1984] in "df1b2variable& df1b2vector::operator () (int i) const". Index too high" - the errors I was getting said "Index too low", but otherwise its pretty much the same. So I may have to contact Curry after all. Alternatively, I can try what Cecilia suggested, which is putting print code after each step in the .tpl file, so I can figure out where the problem is happening.
+
+    -   I tried running Curry's files through terminal (his [re.dat](https://github.com/curryc2/AFSC_VAST_Evaluation/blob/develop/admb/re.dat) and [re.tpl](https://github.com/curryc2/AFSC_VAST_Evaluation/blob/develop/admb/re.tpl)), not R. Here is the code to do that, navigating from kellymistry/admb-12.2:
+
+        -   changing directories to get to the one that has the re.dat and re.tpl files
+
+            -   **cd examples/admb/re**
+
+        -   compile the re.tpl file to build an executable
+
+            -   **admb re.tpl**
+
+        -   run the model
+
+            -   **./re**
+
+-   Just for fun, I tried running my re.dat file in the terminal, and got basically the same error message as above, although it is slightly different from the error messages I was getting before: "Error: Invalid index 16 used for array range [1, 1] in "df1b2variable& df1b2vector::operator () (int i) const". Index too high"
+
+    -   The current version of my re.dat file looks like this:
+
+        \# "/Users/kellymistry/Desktop/Raw Data/NOAA/groundfish_RE_model//re.dat" produced by dat_write() from R2admb Tue Jun 22 13:06:33 2021
+
+        \#
+
+        1984
+
+        \#
+
+        2019
+
+        \#
+
+        1
+
+        \#
+
+        1
+
+        \#
+
+        16
+
+        \#
+
+        1993 1996 1999 2001 1990 2015 2017 1987 2011 1984 2013 2009 2019 2005 2007 2003
+
+        \#
+
+        483622.5 771412.6 727063.5 673155 157295.2 1140407 1570359 241205.8 778669.7 220672.3 1298443 649448.8 1212145 764900.8 688179.8 457421.5
+
+        \#
+
+        0.0003102719 0.0005813243 0.001109696 0.0006340129 0.0001345956 0.0005049531 0.001000155 0.0001566268 0.0003869881 0.0001601923 0.0006097751 0.0003363097 0.0004685531 0.0004187516 0.0003260615 0.0002056652
+
+#### 6/29/21
+
+-   Emailed Kristen on 6/28 to see when she might be available to go over her code, haven't heard back yet. Got GOA indices data separated by subregion from Cecilia (since it originally was for the whole region, and I needed it by subregion).
+
+-   Started working on figuring out how Curry's re.tpl C++ code works, using his re.dat file and putting print statements into the re.tpl code to see how the data is being read in, and how the objects used in the model are created from that data. The print statement I used is std::cerr, with this format with the object styr as an example:
+
+    -   std::cerr \<\< "start year is" \<\<styr;
+
+    -   Through trial and error, I found that this line needs to go in the Procedure Section, under the first line (and it needs to be indented once, so in line with the rest of the code there.
+
+    -   These are the values for the objects created from the data:
+
+        -   styr = 1984 - makes sense
+
+        -   endyr = 2015 - makes sense
+
+        -   yrs = c(1984:2015) - not totally sure how this object is used in the code, but there aren't that many values for biomass because surveys didn't happen every year, so maybe makes sense, maybe not?
