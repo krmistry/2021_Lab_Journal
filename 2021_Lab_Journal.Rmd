@@ -509,7 +509,7 @@ Error in if (any(Gradient0 == 0)) { :
 
 -   Emailed Kristen on 6/28 to see when she might be available to go over her code, haven't heard back yet. Got GOA indices data separated by subregion from Cecilia (since it originally was for the whole region, and I needed it by subregion).
 
--   Started working on figuring out how Curry's re.tpl C++ code works, using his re.dat file and putting print statements into the re.tpl code to see how the data is being read in, and how the objects used in the model are created from that data. The print statement I used is std::cerr, with this format with the object styr as an example:
+-   Started working on figuring out how Curry's re.tpl C++ code works, using his re.dat file and putting print statements into the re.tpl code to see how the data is being read in, and how the objects used in the model are created from that data. The error message is: *Error: Invalid index 1987 used for array range [1, 1984] in "df1b2variable& df1b2vector::operator () (int i) const". Index too high"* The print statement I used is std::cerr, with this format with the object styr as an example:
 
     -   std::cerr \<\< "start year is" \<\<styr;
 
@@ -522,3 +522,255 @@ Error in if (any(Gradient0 == 0)) { :
         -   endyr = 2015 - makes sense
 
         -   yrs = c(1984:2015) - not totally sure how this object is used in the code, but there aren't that many values for biomass because surveys didn't happen every year, so maybe makes sense, maybe not?
+
+        -   num_indx = 13 - this is the number of years - I think this is right, but not 100% sure
+
+        -   n_PE = 1984 - this is definitely wrong, because this is the number of process error parameters, and the default is 1 in Curry's code
+
+        -   PE_vec = 1987 1990 1993 1996 1999 2003 2005 2007 2009 2011 2013 2015 2762 - this is also definitely wrong, for one thing because its the rest of the year string and the first one of the next string, which I'm almost completely certain is the biomass numbers
+
+        -   nobs = 4507 - also definitely wrong, as this is the number of surveys, which I'm pretty sure should be 13 (the number of years), based on the comments in Curry's function, and also this is the second value in the biomass string
+
+        -   yrs_surv = 4034 8447 4885 1873 6251 4655 11681 8415 4040 9675 13693 and 0s for 4507 elements (because nobs is wrong) -
+
+        -   srv_est = 0 x 4507, again because nobs is wrong
+
+        -   srv_cv = 0 x 4507, again because nobs is wrong
+
+    -   n_PE seems to be where it goes wrong - I'm going to try messing with the re.dat file to see if I can get this to be 1, which is the default so hopefully that would produce something
+
+    -   I'm not sure what exactly the PE_vec object is - the name makes me think that its a vector of process error parameters, but the defaults in Curry's code for number of process error parameters is 1, while PE_Vec is c(1,1,1), so...not sure what that means. And in re.tpl, the PE_vect object is initialized as a vector of length num_idx, so that means 13...which I guess makes sense because there would be a process error for each year. But then why is the default n_PE = 1? Maybe need to talk this through with Cecilia.
+
+-   This is the re.dat content that I tried running, taking the above into account:
+
+1984
+
+2015
+
+13
+
+1
+
+1 1 1 1 1 1 1 1 1 1 1 1 1
+
+13
+
+1984 1987 1990 1993 1996 1999 2003 2005 2007 2009 2011 2013 2015
+
+2762.7 4507 4034 8447.6 4885.2 1873.8 6251.8 4655.2 11681.6 8415.7 4040.5 9675.6 13693.4
+
+0.153405 0.3375416 0.1731722 0.1259427 0.1394823 0.1283734 0.2957936 0.1826974 0.2044163 0.1581157 0.1341935 0.1573927 0.1232839
+
+-   The initial index error didn't happen, which is progress - there were several loops that occurred before this error was thrown: Error in matrix inverse -- matrix singular in inv(dmatrix)
+
+    -   This is the parameters that were printed in those loops:
+
+        -   start year is 1984
+
+            end year is 2015
+
+            year vector is  1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015
+
+            number of indices is 13
+
+            Number of process error parameters is 1
+
+            PE_vec is  1 1 1 1 1 1 1 1 1 1 1 1 1
+
+            Numbers of surveys is 13
+
+    -   I adjusted the print statements to print survey years, biomass estimates, and biomass CV objects:
+
+        -   Survey years is  1984 1987 1990 1993 1996 1999 2003 2005 2007 2009 2011 2013 2015
+
+        <!-- -->
+
+            Biomass estimate is  2762.7 4507 4034 8447.6 4885.2 1873.8 6251.8 4655.2 11681.6 8415.7 4040.5 9675.6 13693.4
+
+             0.153405 0.337542 0.173172 0.125943 0.139482 0.128373 0.295794 0.182697 0.204416 0.158116 0.134193 0.157393 0.123284
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+            Biomass CV is  0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+             0 0 0 0 0 0 0 0 0 0 0 0 0
+
+    -   So there's clearly an issue the biomass estimate and biomass CV having too many elements. In the re.tpl, this is how they are defined:
+
+        -   srv_est(1,nobs,1,num_indx)
+
+        -   rv_cv(1,nobs,1,num_indx)
+
+        -   So these are 13 x 13 matrices, and they should be 1 x 13. I'm guess that the num_idx is the one that should be 1, since nobs is by definition the number of survey years.
+
+        -   I also really think that the number of process error parameters should be 13, so I changed that too.
+
+    -   I made num_idx = 1, n_PE = 1, and PE_vec = 1 (even if that might be wrong), so the re.dat looks like this:
+
+        -   1984
+
+            2015
+
+            1
+
+            1
+
+            1
+
+            13
+
+            1984 1987 1990 1993 1996 1999 2003 2005 2007 2009 2011 2013 2015
+
+            2762.7 4507 4034 8447.6 4885.2 1873.8 6251.8 4655.2 11681.6 8415.7 4040.5 9675.6 13693.4
+
+            0.153405 0.3375416 0.1731722 0.1259427 0.1394823 0.1283734 0.2957936 0.1826974 0.2044163 0.1581157 0.1341935 0.1573927 0.1232839
+
+        -   And the model seems to have run and produced something. This is what the current printing statements returned (and I think all of this is what they should be):
+
+            -   number of indices is 1
+
+                Number of process error parameters is 1
+
+                PE_vec is  1
+
+                Numbers of surveys is 13
+
+                Survey years is  1984 1987 1990 1993 1996 1999 2003 2005 2007 2009 2011 2013 2015
+
+                Biomass estimate is  2762.7
+
+                 4507
+
+                 4034
+
+                 8447.6
+
+                 4885.2
+
+                 1873.8
+
+                 6251.8
+
+                 4655.2
+
+                 11681.6
+
+                 8415.7
+
+                 4040.5
+
+                 9675.6
+
+                 13693.4
+
+                Biomass CV is  0.153405
+
+                 0.337542
+
+                 0.173172
+
+                 0.125943
+
+                 0.139482
+
+                 0.128373
+
+                 0.295794
+
+                 0.182697
+
+                 0.204416
+
+                 0.158116
+
+                 0.134193
+
+                 0.157393
+
+                 0.123284
+
+        -   And the biomA.out output seems to have biomass estimates for all of the years, plus one more years
+
+```{r Curry results}
+biomA_Curry_results_6.29.21 <- c(2815.47, 3201.96, 3641.51, 4141.39, 4160.69, 4180.07, 4199.55, 5232.38, 6519.21, 8122.53, 6822.58, 5730.68, 4813.53, 3581.34, 2664.57, 1982.48, 2544.91, 3266.90, 4193.71, 5383.46, 5213.03, 5047.99, 7220.64, 10328.40, 9182.36, 8163.48, 5972.73, 4369.89, 6401.93, 9378.90, 11235.40, 13459.50)
+
+survey_years <- c(1984:2015)
+
+plot(survey_years+1, biomA_Curry_results_6.28.21, xlab = "", ylab = "")
+```
+
+#### 6/30/21
+
+-   Cecilia sent the version of the calculated data separated out by subregion, and I was able to successfully run it through Curry's code for the western subregion, and got results.
+
+```{r western_results}
+biomA_western_results_6.30.21 <- c(60666.0, 61886.8, 63132.2, 64402.6, 46692.0, 33851.8, 24542.6, 35702.9, 51938.1, 75556.0, 80862.0, 86540.5, 92617.9, 68809.6, 51121.4, 37980.2, 102237.0, 275209.0, 141595.0, 72850.6, 135201.0, 250915.0, 199172.0, 158100.0, 70837.5, 31739.1, 56169.8, 99405.8, 125109.0, 157457.0, 143272.0, 130364.0, 159287.0, 194627.0, 91542.1, 43056.5)
+plot(1984:2019+1, biomA_western_results_6.30.21, xlab = "", ylab = "")
+
+```
+
+-   It's great that this code works, but it's not actually the admb code that is used anymore, there have been some changes. So now I need to figure out the differences between Curry's re.tpl script and the one I got from the official git repository, and I can figure out what I need to adjust in my data file to get that one to run.
+
+    -   It looks like, as far the input data, there are fewer variables, just start year, end year, nobs (number of survey years), survey years, biomass estimates, and biomass CVs (I think)
+
+    -   It seems to have worked! Now I have to figure out how to use the outputs. I'll go back to Kristen's code to see what she does.
+
+#### 7/6/21
+
+-   Now that the RE model is working, my next steps are:
+
+    -   Clean up RE code, put it in in its own script and push to github (this week)
+
+    -   Do RE model runs for the rest of the subregions for POP and all subregions for NR (this week)
+
+    -   Update Cecilia about progress and planned next steps (this week)
+
+    -   Write equation for relative error metric, and run that by Mark and Cecilia to check it (this week or next week)
+
+    -   Write up methods up to this point - be very detailed (starting next week)
+
+    -   Implement both relative error and MASE metrics with both RE and VAST results (start next week, alternating between this and writing methods)
+
+    -   Get simulation code from Cecilia and start working on adapting that for my data (start after done with implementing metrics - might coincide with still writing methods; ideally starting in no less than 3 weeks from now)
