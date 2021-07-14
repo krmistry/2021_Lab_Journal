@@ -761,9 +761,9 @@ plot(1984:2019+1, biomA_western_results_6.30.21, xlab = "", ylab = "")
 
 -   Now that the RE model is working, my next steps are:
 
-    -   Clean up RE code, put it in in its own script and push to github (this week)
+    -   Clean up RE code, put it in in its own script and push to github (this week) - completed on 7/14
 
-    -   Do RE model runs for the rest of the subregions for POP and all subregions for NR (this week)
+    -   Do RE model runs for the rest of the subregions for POP and all subregions for NR (this week) - completed on 7/12
 
     -   Update Cecilia about progress and planned next steps (this week) - completed on 7/7
 
@@ -785,4 +785,16 @@ plot(1984:2019+1, biomA_western_results_6.30.21, xlab = "", ylab = "")
 
 -   Created a git repository for RE model and uploaded all of the relevant script, data and results files
 
--   
+-   Description from 2013 unpublished paper, that I need to replicate: "Statistics selected to evaluate the performance of the various methods include the mean relative error (MRE) of biomass (relative error is defined here as estimate/true-1) and variability in these relative errors."
+
+    -   Using the same notation as my equation of mean absolute scaled error (MASE) in my proposal (with $P_n$ = predicted value for observation *n* and $O_n$ = observed value for observation *n*):
+
+$$
+MRE = \frac{1}{N}\sum_{n = 1}^N \frac{P_n}{O_n - 1}
+$$
+
+-   Not sure how to quantify "variability of these relative errors" maybe the distribution of this $N$ length vector of values? Variance, etc.
+
+$$
+RE = \frac{P_n}{O_n - 1}
+$$
