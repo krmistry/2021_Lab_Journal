@@ -765,7 +765,7 @@ plot(1984:2019+1, biomA_western_results_6.30.21, xlab = "", ylab = "")
 
     -   Do RE model runs for the rest of the subregions for POP and all subregions for NR (this week)
 
-    -   Update Cecilia about progress and planned next steps (this week)
+    -   Update Cecilia about progress and planned next steps (this week) - completed on 7/7
 
     -   Write equation for relative error metric, and run that by Mark and Cecilia to check it (this week or next week)
 
@@ -774,3 +774,15 @@ plot(1984:2019+1, biomA_western_results_6.30.21, xlab = "", ylab = "")
     -   Implement both relative error and MASE metrics with both RE and VAST results (start next week, alternating between this and writing methods)
 
     -   Get simulation code from Cecilia and start working on adapting that for my data (start after done with implementing metrics - might coincide with still writing methods; ideally starting in no less than 3 weeks from now)
+
+#### 7/12/21
+
+-   Still working on cleaning up the RE model code.
+
+-   Ran the rest of the subregions for both species, and the eastern/sebastes_polyspinis has 0 values for catch, which makes the CV an NA, and therefore the RE model can't be calculated - check with Mark or Cecilia about how to deal with this.
+
+#### 7/14/21
+
+-   Created a git repository for RE model and uploaded all of the relevant script, data and results files
+
+-   
