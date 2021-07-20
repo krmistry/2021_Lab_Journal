@@ -767,7 +767,7 @@ plot(1984:2019+1, biomA_western_results_6.30.21, xlab = "", ylab = "")
 
     -   Update Cecilia about progress and planned next steps (this week) - completed on 7/7
 
-    -   Write equation for relative error metric, and run that by Mark and Cecilia to check it (this week or next week)
+    -   Write equation for relative error metric, and run that by Mark and Cecilia to check it (this week or next week) - created 2 versions, emailed Cecilia for opinion on 7/20
 
     -   Write up methods up to this point - be very detailed (starting next week)
 
@@ -779,7 +779,7 @@ plot(1984:2019+1, biomA_western_results_6.30.21, xlab = "", ylab = "")
 
 -   Still working on cleaning up the RE model code.
 
--   Ran the rest of the subregions for both species, and the eastern/sebastes_polyspinis has 0 values for catch, which makes the CV an NA, and therefore the RE model can't be calculated - check with Mark or Cecilia about how to deal with this.
+-   Ran the rest of the subregions for both species, and the eastern/sebastes_polyspinis has 0 values for catch, which makes the CV an NA, and therefore the RE model can't be calculated - check with Mark or Cecilia about how to deal with this. - emailed Cecilia on 7/20
 
 #### 7/14/21
 
@@ -790,11 +790,27 @@ plot(1984:2019+1, biomA_western_results_6.30.21, xlab = "", ylab = "")
     -   Using the same notation as my equation of mean absolute scaled error (MASE) in my proposal (with $P_n$ = predicted value for observation *n* and $O_n$ = observed value for observation *n*):
 
 $$
-MRE = \frac{1}{N}\sum_{n = 1}^N \frac{P_n}{O_n - 1}
+\text{MRE} = \frac{1}{N}\sum_{n = 1}^N \frac{P_n}{O_n - 1}
 $$
 
--   Not sure how to quantify "variability of these relative errors" maybe the distribution of this $N$ length vector of values? Variance, etc.
+-   Alternatively, based on looking up what relative error equations usually look like, would it be this?
+
+    $$
+    \text{MRE} = \frac{1}{N}\sum_{n = 1}^N \frac{\left| P_n - O_n \right|}{O_n - 1}
+    $$
+
+-   Not sure what "variability of these relative errors" means exactly - I assume the distribution of this $N$ length vector of RE values? Variance, etc.
 
 $$
-RE = \frac{P_n}{O_n - 1}
+\text{RE} = \frac{P_n}{O_n - 1}
 $$
+
+OR
+
+$$
+\text{RE} = \frac{\left| P_n - O_n \right|}{O_n - 1}
+$$
+
+#### 7/15/21
+
+-   Still need to check with Mark and/or Cecilia about which of the above equations is better. In the meantime, I'll work on coding both versions.
