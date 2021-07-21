@@ -813,4 +813,30 @@ $$
 
 #### 7/15/21
 
--   Still need to check with Mark and/or Cecilia about which of the above equations is better. In the meantime, I'll work on coding both versions.
+-   Still need to check with Mark and/or Cecilia about which of the above equations is better. In the meantime, I'll work on coding both versions. - coding both versions, and MASE, completed on 7/20, and I sent Cecilia the above questions on 7/20, will ask Mark in our meeting on 7/21
+
+#### 7/21/21
+
+-   Topics for meeting tomorrow
+
+    -   Update on progress & questions
+
+        -   RE model run successfully, have results for all but NR Eastern
+
+            -   Include some visuals - maybe with both RE & VAST prediction results plotted on the same graph for visual comparison?
+
+        -   Evaluation metrics coded, run with POP Western so far
+
+            -   MASE and MRE
+
+                -   Ask if Paul or Jim knows if either version I have is what was used in the 2013 paper; also, if they don't know, if there's much of a difference between them, and if it matters which I use
+
+                -   Ask if I'm interpreting "variability of these relative errors" correctly
+
+    -   Next steps
+
+        -   Run evaluation metrics with the rest of the species/subregions
+
+        -   Start working on the simulation code
+
+        -   Work on writing up the methods
