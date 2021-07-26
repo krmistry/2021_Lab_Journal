@@ -781,6 +781,8 @@ plot(1984:2019+1, biomA_western_results_6.30.21, xlab = "", ylab = "")
 
 -   Ran the rest of the subregions for both species, and the eastern/sebastes_polyspinis has 0 values for catch, which makes the CV an NA, and therefore the RE model can't be calculated - check with Mark or Cecilia about how to deal with this. - emailed Cecilia on 7/20
 
+### Model comparison notes & troubleshooting
+
 #### 7/14/21
 
 -   Created a git repository for RE model and uploaded all of the relevant script, data and results files
@@ -840,3 +842,37 @@ $$
         -   Start working on the simulation code
 
         -   Work on writing up the methods
+
+### First simulation study notes & troubleshooting 
+
+#### 7/26/21
+
+-   The meeting on 7/22 didn't end up happening, it was postponed to 8/4, so do the above steps before then
+
+-   Today, I start working with Mark on starting to conceptualize the first simulation experiment
+
+    -   From my proposal, this is what I said about that simulation experiment: "I will conduct a simulation study to determine whether the model outputs from the two models (such as unfished biomass, $B_0$), which will be used to set management rules, differ enough between the delta-GLMM and random walk model to produce different TAC at the subregional level. For the simulations, I will create 100 simulated data sets using the estimated variance parameters for the random walk model, and another 100 simulated data sets using the estimated variance parameters of the random effects and the mean and variance of the fixed effects from the delta-GLMM model. Each simulated data set will have the same annual sample size as the original data set. I will then fit the two models to each of the simulated data sets and assess how well each model fits in terms of accuracy and precision. The specific metrics used will be determined as the project develops."
+
+    -   From 6/23 meeting with Jim and Paul: Paul thinks that I really need a simulated data set to properly evaluate performance metrics (which is what I am planning based on above description, right? Check with Mark). I also need to think about how to link model performance with management decisions, like how much area apportionment changes depending on results from the two models.
+
+### Misc. Article Notes
+
+#### A practical guide to selecting models for exploration, inference and prediction in ecology (Tredennick et al. 2021)
+
+-   Basically, know what your end goal is (i.e. exploration, inference or prediction) before deciding on model selection. For the NOAA groundfish subregion project, my goal is definitely prediction
+
+-   Future articles to read, regarding developing methods for inference that account for model selection and associated uncertainty:
+
+    -   Selective inference - Taylor and Tibshirani 2015
+
+    -   Stability selection - Meinshausen and Buhlmann 2010
+
+    -   Other methods - Shen et al. 2004, Lockhart et al. 2014, G'Sell et al. 2016
+
+-   "...researcher degrees of freedom: all of the implicit choices researchers make that influence an analysis (Simmons et al. 2011)" pg 3 - GREAT concept, and term. Definitely going to remember that one.
+
+-   Interesting point: understanding more about the system will most likely improve predictive models, but the best predictive model may not be all that informative for inference (may not increase understanding) - this is because it doesn't matter how little a covariate adds to the predictive power, if it adds even a tiny bit it will be judged as better
+
+-   "A distinguishing feature of modeling for prediction is the need to test predictive models "out of sample": using independent data that were not used to fit the model." pg 5 - I'm not sure that I actually have this. May want to talk to Mark and/or Cecilia about it
+
+-   Important to note that this paper is mostly relevant to Frequentist statistics; a strict Bayesian wouldn't separate inference, exploration and prediction in the same way
