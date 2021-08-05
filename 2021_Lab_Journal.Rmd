@@ -843,7 +843,7 @@ $$
 
         -   Work on writing up the methods
 
-### First simulation study notes & troubleshooting 
+### First simulation study notes & troubleshooting
 
 #### 7/26/21
 
@@ -854,6 +854,34 @@ $$
     -   From my proposal, this is what I said about that simulation experiment: "I will conduct a simulation study to determine whether the model outputs from the two models (such as unfished biomass, $B_0$), which will be used to set management rules, differ enough between the delta-GLMM and random walk model to produce different TAC at the subregional level. For the simulations, I will create 100 simulated data sets using the estimated variance parameters for the random walk model, and another 100 simulated data sets using the estimated variance parameters of the random effects and the mean and variance of the fixed effects from the delta-GLMM model. Each simulated data set will have the same annual sample size as the original data set. I will then fit the two models to each of the simulated data sets and assess how well each model fits in terms of accuracy and precision. The specific metrics used will be determined as the project develops."
 
     -   From 6/23 meeting with Jim and Paul: Paul thinks that I really need a simulated data set to properly evaluate performance metrics (which is what I am planning based on above description, right? Check with Mark). I also need to think about how to link model performance with management decisions, like how much area apportionment changes depending on results from the two models.
+
+#### 8/5/21
+
+-   Met with Jim and Paul to give them an update on my progress. Here is the [powerpoint.](https://docs.google.com/presentation/d/1sdyE6PQ926CZ0QCQ4y80QFfg433lugK7Y_364pxWvXs/edit?usp=sharing)
+
+    -   Another NOAA group is working on POP in VAST
+
+        -   Recent years have a discrepancy between VAST model results and survey data (something to be aware of)
+
+    -   I asked about the difference between the Index_ctl and Table_for_SS3.csv in terms of which I should use; the Table_for_SS3 data is the correct one to use when comparing with RE for how accurately the model results correspond to the survey data
+
+    -   "Proportion by area" might be a better way to judge model performance; not sure exactly what this entails (check with Mark or Cecilia)
+
+    -   Paul is curious about why the RE model results adhere to exactly to the survey data (I am also curious about this :D )
+
+        -   Paul volunteers to look at my RE code
+
+        -   Jim suggests that I could experiment a bit more with this too
+
+    -   Find out units of biomiass (I should know this anyway)
+
+    -   First MRE equation is right according to Paul
+
+    -   Consider using either jackknife or bootstrap methods (look up jackknife) either in addition to or instead of the simulation study
+
+    -   For future update meetings, make abstracts to attach to each calendar meet
+
+    -   Potential issue to consider: if VAST is the operating model for the simulation study, then the VAST results may have an advantage. However, it may be interesting to see how well the RE model performs in this case.
 
 ### Misc. Article Notes
 
