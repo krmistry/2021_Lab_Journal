@@ -847,13 +847,19 @@ $$
 
 #### 7/26/21
 
--   The meeting on 7/22 didn't end up happening, it was postponed to 8/4, so do the above steps before then
+-   The meeting on 7/22 didn't end up happening, it was postponed to 8/5, so do the above steps before then
 
 -   Today, I start working with Mark on starting to conceptualize the first simulation experiment
 
     -   From my proposal, this is what I said about that simulation experiment: "I will conduct a simulation study to determine whether the model outputs from the two models (such as unfished biomass, $B_0$), which will be used to set management rules, differ enough between the delta-GLMM and random walk model to produce different TAC at the subregional level. For the simulations, I will create 100 simulated data sets using the estimated variance parameters for the random walk model, and another 100 simulated data sets using the estimated variance parameters of the random effects and the mean and variance of the fixed effects from the delta-GLMM model. Each simulated data set will have the same annual sample size as the original data set. I will then fit the two models to each of the simulated data sets and assess how well each model fits in terms of accuracy and precision. The specific metrics used will be determined as the project develops."
 
     -   From 6/23 meeting with Jim and Paul: Paul thinks that I really need a simulated data set to properly evaluate performance metrics (which is what I am planning based on above description, right? Check with Mark). I also need to think about how to link model performance with management decisions, like how much area apportionment changes depending on results from the two models.
+
+    -   Notes from meeting with Mark:
+
+        -   For a randomly distributed simulated data set: X \~ Unif(0, max x) and Y \~ Unif(0, max y). The characteristics of a random distribution are that the nearest neighbor distance is Poisson distributed
+
+        -   Look at how much the CV varies for the one where catch = 0 (so CV won't be NA and I can run the RE model) I could take that data point out, but since its the most recent year, I don't want to do that if I don't have to. Ask Cecilia (Mark didn't really answer this question).
 
 #### 8/5/21
 
