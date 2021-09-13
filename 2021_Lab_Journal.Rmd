@@ -889,6 +889,22 @@ $$
 
     -   Potential issue to consider: if VAST is the operating model for the simulation study, then the VAST results may have an advantage. However, it may be interesting to see how well the RE model performs in this case.
 
+#### 8/31/21
+
+-   Met with Cecilia, updated her on my progress and what Jim and Paul had to say in the 8/5 meeting.
+
+    -   She agreed that the proportion of area was a good idea, and that it was a pretty simple calculation
+
+    -   She also agreed that using a bootstrap or jackknife resampling method instead of a simulation study might make more sense for evaluating VAST vs. RE model performance, in other words instead of the first simulation study. She did encourage me to think about it and come to my own conclusions about which would make more sense.
+
+        -   I agree that resampling rather than simulation makes more sense for this type of model evaluation, so now I have to decide whether to use bootstrap or jackknife. Jackknife has the advantage of being fully deterministic rather than random (which bootstrap is), making it both reproducible and easy to see which data points might have leverage compared to others.
+
+    -   Another option for model evaluation is CV, which is a metric that measures the amount of variation, definitely something that we supposedly care about for this study. So I'll look into that too, as well as see if there are other metrics to quantify variation that should be considered.
+
+    -   Finally, I told her I would email Paul my RE code for his review, as we all agree that the RE results don't look right since they so closely adhere to the survey estimates in the survey years. It took me longer than it should have to clean up my code and send it to him, but I finally did on Tuesday 9/7.
+
+        -   He may not get back to me very quickly though, so I need to get on figuring out how the RE model works to see if I can figure it out.
+
 ### Misc. Article Notes
 
 #### A practical guide to selecting models for exploration, inference and prediction in ecology (Tredennick et al. 2021)
