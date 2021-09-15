@@ -905,6 +905,48 @@ $$
 
         -   He may not get back to me very quickly though, so I need to get on figuring out how the RE model works to see if I can figure it out.
 
+### 9/13/2021
+
+-   Over the past two weeks, I figured out what was going wrong in the CV calculation in the RE code (I was multiplying by 100 as thought it was a percent, when it wasn't), and re-ran the RE models, and the results look much more plausible (they don't adhere so closely to the survey data).
+
+    -   The exception is eastern NR, which had the 0 value in its data. I made the 0 into 0.01, but variance for that data point was also 0, meaning that the CV was 0 (instead of NA, which is what it was before) and this meant that the model failed to run due to an error with the inverse matrix not existing. Email Cecilia today to see if she has a suggestion for how to handle this.
+
+-   For the meeting with everyone on Wednesday, my to do list is:
+
+    -   Write an abstract of my current progress and immediate next steps
+
+    -   Create slides for:
+
+        -   The re-run RE result plots
+
+        -   Laying out all of the metrics that have been proposed so far, grouped based on what they measure (precision, quantity of variance, etc.) and my preferences for which ones to use:
+
+            -   MASE and MRE both measure accuracy the model's accuracy to the survey data
+
+            -   Proportion of area measures how the total biomass is distributed between the subregions; would this be compared to the survey data POA? Probably, I guess. Based on past conversations, I'm leaning towards this rather than either MASE or MRE.
+
+            -   CV and proportional variability (PV) measure the amount of variance (which doesn't need to be compared to the survey data, I don't think), and PV is my preference.
+
+                -   Percent deviance is a new metric that Cecilia mentioned today, which is now an automatic output for VAST and theoretically wouldn't be difficult to implement for the RE; it measures the amount of variance explained by each covariate compared to the null model. So a little bit different from PV or CV, I think, but somewhat related.
+
+            -   Maybe run the data for each of these metrics, or at least the ones I think I want to do and present that too...
+
+        -   Other updates and questions:
+
+            -   I think I will use the jackknife method over the bootstrap, both for ease of computing and reproducibility, but ask if there is any issues with having a relatively small sample size (14 survey years or 16 survey years, depending on species)
+
+                -   Some studies found that the jackknife was better with small sample sizes than bootstrap, others found the opposite and I'm not sure which would work best for this instance (the studies had fairly different types of questions and data scenarios)
+
+            -   Ask Paul if he knows what the functions step() and obs() and the conditions mceval_phase() and sd_phase() are in the re.tpl file, or where I can find a definition
+
+        -   Next steps:
+
+            -   Make final decision about which metrics to use, and whether to use jackknife or bootstrap
+
+            -   Implement resampling method (for VAST at least, will likely use Hyak or the QERM server as it will take a long time to run on my computer)
+
+            -   WRITE UP METHODS - for REAL this time
+
 ### Misc. Article Notes
 
 #### A practical guide to selecting models for exploration, inference and prediction in ecology (Tredennick et al. 2021)
