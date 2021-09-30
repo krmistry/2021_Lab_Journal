@@ -982,7 +982,7 @@ $$
 
         -   Paul comments seeing smaller variances in survey years is a common thing for RE modle, may be good to explore why this is
 
-        -   Attend Plan Team meeting next week for Cole's presentation about the RE model (I did, and this is the relevant presentation slides and associated paper)
+        -   Attend Plan Team meeting next week for Cole's presentation about the RE model (I did, and this is the relevant [presentation slides](https://meetings.npfmc.org/CommentReview/DownloadFile?p=02281578-6fca-4f7b-a33b-0f129152a7e4.pdf&fileName=PRESENTATION_Tier%204%20and%205%20Consideration.pdf) and [associated paper](https://meetings.npfmc.org/CommentReview/DownloadFile?p=86098951-a0ed-4021-a4e1-95abe5a357fe.pdf&fileName=Tiers%204%20and%205%20assessment%20considerations.pdf))
 
         -   Use proportion of area instead of biomass estimate and then perform metrics on that, things like MASE and MRE (I think this is what Jim was talking about)
 
@@ -998,9 +998,9 @@ $$
 
 -   I sent my VAST code to both Markus and Mark asking for feedback; got responses, still need to implement them
 
--   I worked on streamlining and cleaning up my RE code, and while doing this ran into an issue with compile_admb(), where it was giving me an error saying that it couldn't find the re.tpl file at the file path I provided
+-   I worked on streamlining and cleaning up my RE code in preparation for doing jackknife resampling, and while doing this ran into an issue with compile_admb(), where it was giving me an error saying that it couldn't find the re.tpl file at the file path I provided
 
-    -   
+    -   After trying a lot of different versions, it really seems to sometimes work and sometimes not, with the exact same file path inputs. I went to create a github issue about it, but there was a somewhat similar issue open from 2017, which had never been responded to or closed, so I may not bother.
 
 ### 9/29/21
 
