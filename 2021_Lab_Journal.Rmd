@@ -2,8 +2,9 @@
 title: "2021 Lab Journal"
 author: "Kelly Mistry"
 date: "1/26/2021"
-output: 
-  html_document: 
+output:
+  pdf_document: default
+  html_document:
     keep_md: yes
 ---
 
@@ -843,7 +844,7 @@ $$
 
         -   Work on writing up the methods
 
-### First simulation study notes & troubleshooting
+### Resampling study notes & troubleshooting
 
 #### 7/26/21
 
@@ -946,6 +947,78 @@ $$
             -   Implement resampling method (for VAST at least, will likely use Hyak or the QERM server as it will take a long time to run on my computer)
 
             -   WRITE UP METHODS - for REAL this time
+
+### 9/14/21
+
+-   Meeting with Mark notes:
+
+    -   Update CV for Pierce award nomination (completed on 9/20)
+
+    -   Ideas for places to present:
+
+        -   Alaska Marine Science Symposium (<https://alaskamarinescience.org/abstracts> - **abstract submission closes on 10/15** - get on this!!!)
+
+        -   AFS 2022 - will be held in August in Spokane
+
+    -   Ask about code review among lab mates (did this with VAST code, and Markus and Mark gave me notes, which still need to be incorporated)
+
+    -   Job shadowing might be an option - talk with Mark more about this soon
+
+    -   Hyak access might be a good lab meeting topic (ask John Best for help)
+
+### 9/15/21
+
+-   Meeting with Jim, Paul, Cecilia and Mark notes:
+
+    -   Cecilia took notes [here](https://docs.google.com/document/d/1eeHyZe7HVil2C7LjcdQLTQIvaj6xl0y8z7bcbIlMs1I/edit?usp=sharing)
+
+    -   My notes:
+
+        -   Have we considered a MARSS model? As kind of an intermediate step between RE and VAST
+
+            -   Mark says the code for this would be pretty simple
+
+            -   Paul says he thinks its a good idea (Jim proposed it)
+
+        -   Paul comments seeing smaller variances in survey years is a common thing for RE modle, may be good to explore why this is
+
+        -   Attend Plan Team meeting next week for Cole's presentation about the RE model (I did, and this is the relevant presentation slides and associated paper)
+
+        -   Use proportion of area instead of biomass estimate and then perform metrics on that, things like MASE and MRE (I think this is what Jim was talking about)
+
+        -   Jackknife seems to have consensus at he best option to start with
+
+        -   Email Paul about re.tpl functions, to make sure the one I'm using is the right one (sent him the email on 9/21, haven't heard back yet as of 9/30)
+
+        -   Start sending update slides with results as I have them rather than waiting until the next meeting
+
+        -   Start email thread with everyone about survey boat opportunity (STILL NEED TO DO THIS)
+
+### Between 9/15 and 9/29
+
+-   I sent my VAST code to both Markus and Mark asking for feedback; got responses, still need to implement them
+
+-   I worked on streamlining and cleaning up my RE code, and while doing this ran into an issue with compile_admb(), where it was giving me an error saying that it couldn't find the re.tpl file at the file path I provided
+
+    -   
+
+### 9/29/21
+
+I need to get MUCH better at writing notes here. New goal: write weekly updates, at the very least, and ideally write at least a brief description of activities for each day
+
+-   Meeting with Mark notes:
+
+    -   MARSS models have been used for this type of question, so it makes sense that managers would want to know if VAST is better than this method, or at least how it compares in performance
+
+    -   May be worth experimenting a bit to see if this is even a good idea - check how many unique sites I have; if there are too many sites, it may not be worth it because it would take to long to compute
+
+        -   Check on 9/30, and for POP there are 9,893 total sites across years, with a minimum of 489 and maximum of 837 in sites for each year; Mark says that just 489 sites would be pretty computationally intensive.
+
+            -   However, I only looked at unique site combinations; if I look for sites grouped within a certain distance from each other and treat those as the same, maybe the number of sites would be reduced enough to consider it? Something to experiment with...
+
+    -   Contact Cole about compile_admb() issue
+
+    -   For jackknife, make the missing years data NA; check if this breaks the RE model
 
 ### Misc. Article Notes
 
