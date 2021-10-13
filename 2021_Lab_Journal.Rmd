@@ -26,36 +26,6 @@ Stationarity tests: Dickey-Fuller (for lag of 0), Augmented Dickey-Fuller (for l
 
 ```
 
-#### Section Six
-
-```{r ATSA Section 6, eval = FALSE, echo = FALSE}
-```
-
-#### Section Seven
-
-```{r ATSA Section 7, eval = FALSE, echo = FALSE}
-```
-
-#### Section Eight
-
-```{r ATSA Section 8, eval = FALSE, echo = FALSE}
-```
-
-#### Section Nine
-
-```{r ATSA Section 9, eval = FALSE, echo = FALSE}
-```
-
-#### Section Ten
-
-```{r ATSA Section 10, eval = FALSE, echo = FALSE}
-```
-
-#### Section Eleven
-
-```{r ATSA Section 11, eval = FALSE, echo = FALSE}
-```
-
 ### Indigenous Statistics book notes continued
 
 ### Applied Time Series Analysis Winter 2021 Class Notes
@@ -1016,9 +986,87 @@ I need to get MUCH better at writing notes here. New goal: write weekly updates,
 
             -   However, I only looked at unique site combinations; if I look for sites grouped within a certain distance from each other and treat those as the same, maybe the number of sites would be reduced enough to consider it? Something to experiment with...
 
-    -   Contact Cole about compile_admb() issue
+    -   Contact Cole about compile_admb() issue - nevermind, figured it out
 
-    -   For jackknife, make the missing years data NA; check if this breaks the RE model
+    -   For jackknife, make the missing years data NA; check if this breaks the RE model - it does; had to just remove the year completely
+
+    -   Plan for next steps:
+
+        -   Incorporate feedback from Mark and Markus on VAST code
+
+        -   Try running RE model with NAs for one of the years (Mark's suggested method for the jackknife), to see if it breaks - I think it might, so the other option is to completely omit a year, I'm pretty sure.
+
+        -   VAST might be able to handle NAs for a year, I'll have to check that too though. Mark thinks it should be fine. I should probably do that before I get access to Hyak anyway, so I can do that while I'm waiting to be given access.
+
+            -   10/4: I just received an email that I've been granted access to Hyak, so can move forward with this imminently
+
+        -   Write an abstract to submit for [Alaska Marine Sciences Symposium](https://alaskamarinescience.org/home) - deadline is OCTOBER 15! (Also, check with Cecilia if she thinks this is a good idea, but I think it will be) Can use the one I wrote for Jim & Paul as a starting point.
+
+            -   Looks like the conference will be virtual - dates are 1/25 - 1/27.
+
+            -   I'll also need an abstract for the USGS Coop student presentations, although not sure when - this can probably be the same abstract.
+
+        -   EMAIL CECILIA - really need to do this, both to give her an update on what I've been doing in the last 2 weeks, and to ask her opinion on the MARSS model idea. And for speaking opportunities.
+
+        -   Set a weekly writing goal and start doing it - maybe at least 1 page per week? See how that goes. It would be good to look at some other theses to see how long they are, how different from a published paper (which I assume is shorter?).
+
+        -   EMAIL COMMITTEE MEMBERS - need to set up a committee meeting sometime this quarter, to update Sarah and I guess get approval for my annual review stuff (?)
+
+### 10/11/21
+
+Not a great start for the weekly updates, but oh well.
+
+### 10/12/21
+
+-   Meeting with Mark notes:
+
+    -   Contact Cole Monnahan to ask about how he added to the 0 values (to all values, or just the ones with 0)
+
+    -   Conference abstracts need to be approved through Digital Measures (by Sarah, or maybe someone else), possibly BEFORE being submitted to the conference (so for the Alaska Marine Science Symposium, I need to do this ASAP)
+
+        -   DO THIS TODAY
+
+### 10/13/21
+
+-   Goals for this week:
+
+    -   Submit abstract to Alaska Marine Science Symposium by 10/15 at noon - the first step is getting the abstract approved on Digital Measures, either by Mark or Sarah
+
+        -   10/13: I've submitted it to Digital Measures for review, so just waiting for approval
+
+    -   Log in to Hyak, and navigate around to start familiarizing myself
+
+        -   10/13: I've worked through all of the steps [here](http://depts.washington.edu/uwrcc/getting-started-2/getting-started/), and now just have to wait an hour to see if the Hyak and Lolo servers appear in my active subscriptions; once they do, I can try logging in :D
+
+            -   It doesn't seem to be working (says "no record matched" when I try to subscribe), so I posted in the RCC slack to see if anyone had suggestions
+
+    -   Work on writing methods section - at least 1 - 2 hours tomorrow morning, more would be ideal
+
+    -   Start incorporating edits from Mark's code review for the VAST code, and getting the code set up to run in Hyak (John's suggestion is to use for loops)
+
+        -   It would be great to get this mostly done by next week, so I can maybe consider actually running it by the end of next week (maybe)
+
+    -   Submit abstract to GSS
+
+        -   10/13: COMPLETED!!!!!
+
+    -   Start working on powerpoint for presentations - practice presentation for the lab will be next Wednesday, 10/20
+
+        -   Presentation sequence and run times:
+
+            -   USGS Coop student symposium - Wednesday, 10/27 for 8 minutes (2 minutes for questions)
+
+                -   Definitely happening
+
+            -   GSS - Thursday, 11/4 for 12 minutes (3 minutes for questions)
+
+                -   Submitted abstract, but very likely to be accepted
+
+            -   Alaska Marine Science Symposium - 1/25 - 27, unknown run time
+
+                -   Haven't submitted abstract, unknown likelihood of acceptance, and it could be either a poster or oral presentation
+
+    -   
 
 ### Misc. Article Notes
 
