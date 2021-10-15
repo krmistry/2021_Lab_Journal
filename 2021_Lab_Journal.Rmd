@@ -1033,18 +1033,29 @@ Not a great start for the weekly updates, but oh well.
     -   Submit abstract to Alaska Marine Science Symposium by 10/15 at noon - the first step is getting the abstract approved on Digital Measures, either by Mark or Sarah
 
         -   10/13: I've submitted it to Digital Measures for review, so just waiting for approval
+        -   10/14: Mark sent some edits, so I incorporated them and resubmitted. Waiting for approval again.
+        -   10/15: Approval didn't come through, but Mark told me to submit it anyway, so it's been submitted. I'll hear in mid-November if it's accepted.
 
-    -   Log in to Hyak, and navigate around to start familiarizing myself
+    -   Login to Hyak, and navigate around to start familiarizing myself
 
         -   10/13: I've worked through all of the steps [here](http://depts.washington.edu/uwrcc/getting-started-2/getting-started/), and now just have to wait an hour to see if the Hyak and Lolo servers appear in my active subscriptions; once they do, I can try logging in :D
 
             -   It doesn't seem to be working (says "no record matched" when I try to subscribe), so I posted in the RCC slack to see if anyone had suggestions
 
-    -   Work on writing methods section - at least 1 - 2 hours tomorrow morning, more would be ideal
+            -   10/14: tried again today, and for some reason it worked. Not complaining though, yay. Now I can try logging in.
+
+                -   It worked! I now have access to Mox on Hyak :D :D :D :D
+
+    -   Start working through terminal [command training materials](https://swcarpentry.github.io/shell-novice/)
+
+    -   Work on writing methods section - at least 1 - 2 hours, more would be ideal
+
+        -   10/15: worked on continuing to flesh out the outline
 
     -   Start incorporating edits from Mark's code review for the VAST code, and getting the code set up to run in Hyak (John's suggestion is to use for loops)
 
         -   It would be great to get this mostly done by next week, so I can maybe consider actually running it by the end of next week (maybe)
+        -   10/14: incorporated all of Mark and Markus's comments, now the next step is to set up the code to loop through the resampled data
 
     -   Submit abstract to GSS
 
@@ -1066,7 +1077,25 @@ Not a great start for the weekly updates, but oh well.
 
                 -   Haven't submitted abstract, unknown likelihood of acceptance, and it could be either a poster or oral presentation
 
-    -   
+### 10/14/21
+
+-   Goals for week of 10/18:
+
+    -   Build R on Mox per John's instructions
+
+### 10/15/21
+
+-   Notes from meeting with Cecilia
+
+    -   Proportion of area is what I will transform all of the results into before performing metrics
+
+    -   She's fine with the plan to leave the MARSS model until the end, and if I have time to do it then great but if not then just leave it as a discussion item for future research
+
+    -   She's on board with my plan to do the simulation study if I have time (MARSS will be behind that priority wise)
+
+    -   Ask Paul about how to predict with the random walk model
+
+-   
 
 ### Misc. Article Notes
 
