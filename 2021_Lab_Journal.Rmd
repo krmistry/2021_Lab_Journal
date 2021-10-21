@@ -1063,19 +1063,20 @@ Not a great start for the weekly updates, but oh well.
 
     -   Start working on powerpoint for presentations - practice presentation for the lab will be next Wednesday, 10/20
 
-        -   Presentation sequence and run times:
+-   Presentation sequence and run times:
 
-            -   USGS Coop student symposium - Wednesday, 10/27 for 8 minutes (2 minutes for questions)
+    -   USGS Coop student symposium - Wednesday, 10/27 for 8 minutes (2 minutes for questions)
 
-                -   Definitely happening
+        -   Definitely happening, no abstract needed just a title
 
-            -   GSS - Thursday, 11/4 for 12 minutes (3 minutes for questions)
+    -   GSS - Thursday, 11/4 for 12 minutes (3 minutes for questions)
 
-                -   Submitted abstract, but very likely to be accepted
+        -   Submitted abstract, but very likely to be accepted
 
-            -   Alaska Marine Science Symposium - 1/25 - 27, unknown run time
+    -   Alaska Marine Science Symposium - 1/25 - 27, 10 - 15 minutes
 
-                -   Haven't submitted abstract, unknown likelihood of acceptance, and it could be either a poster or oral presentation
+        -   Haven't submitted abstract, unknown likelihood of acceptance, and it could be either a poster or oral presentation
+        -   10/15: submitted abstract, requested oral presentation preferentially
 
 ### 10/14/21
 
@@ -1095,7 +1096,42 @@ Not a great start for the weekly updates, but oh well.
 
     -   Ask Paul about how to predict with the random walk model
 
--   
+-   I was watching Dan Ovando's quantitative seminar about predictive modeling, and was reminded that the gold standard for predictive modeling is to separate the data into test and train parts (20:80 is the typically used proportion), then from the train data, resample it and for each resample dataset, separate again into test and train data. I haven't done this with my data, and I probably should, I think? Email Mark and/or Cecilia about it.
+
+    -   In the meantime, maybe try it out with the VAST data and see how hard it is to separate - do I need to make sure that I have an even distribution between years and subregions? It seems like I might need to be careful about that...
+
+### 10/21/2021
+
+-   I've been mostly working on presentation slides this week, but as part of that I finally made graphics of the VAST initial results compared to the survey data, and it definitely looked weird. The bias corrected results, from Table_for_SS3, were 0 for the non-survey years, which definitely isn't right.
+
+    -   So, I reran the VAST model (the previous run was from back in early August) to see if the issue persists.
+
+        -   This message showed after bias correction finished (not sure if its important):
+
+            -   Warning messages:
+
+            -   1: In sparseMatrix(i = index.i, j = index.j, x = Aij, dims = c(mesh\$n, :
+ 'giveCsparse' has been deprecated; setting 'repr = "T"' for you
+
+            -   2: In sparseMatrix(i = index.i, j = index.j, x = Aij, dims = c(mesh\$n, :
+ 'giveCsparse' has been deprecated; setting 'repr = "T"' for you
+
+            -   3: In sparseMatrix(i = index.i, j = index.j, x = Aij, dims = c(mesh\$n, :
+ 'giveCsparse' has been deprecated; setting 'repr = "T"' for you
+
+            -   4: In na.omit(as.numeric(strsplit(part, "")[[1]])) :
+ NAs introduced by coercion
+
+        -   It produced the same results - 0 for non-survey years in Table_for_SS3
+
+    -   I uploaded the scripts to github, so Cecilia can try it out
+
+### Presentation graphics
+
+```{r presentation graphics}
+
+
+```
 
 ### Misc. Article Notes
 
