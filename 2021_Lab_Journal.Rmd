@@ -1110,28 +1110,79 @@ Not a great start for the weekly updates, but oh well.
 
             -   Warning messages:
 
-            -   1: In sparseMatrix(i = index.i, j = index.j, x = Aij, dims = c(mesh\$n, :
- 'giveCsparse' has been deprecated; setting 'repr = "T"' for you
+            -   1: In sparseMatrix(i = index.i, j = index.j, x = Aij, dims = c(mesh\$n, : 'giveCsparse' has been deprecated; setting 'repr = "T"' for you
 
-            -   2: In sparseMatrix(i = index.i, j = index.j, x = Aij, dims = c(mesh\$n, :
- 'giveCsparse' has been deprecated; setting 'repr = "T"' for you
+            -   2: In sparseMatrix(i = index.i, j = index.j, x = Aij, dims = c(mesh\$n, : 'giveCsparse' has been deprecated; setting 'repr = "T"' for you
 
-            -   3: In sparseMatrix(i = index.i, j = index.j, x = Aij, dims = c(mesh\$n, :
- 'giveCsparse' has been deprecated; setting 'repr = "T"' for you
+            -   3: In sparseMatrix(i = index.i, j = index.j, x = Aij, dims = c(mesh\$n, : 'giveCsparse' has been deprecated; setting 'repr = "T"' for you
 
-            -   4: In na.omit(as.numeric(strsplit(part, "")[[1]])) :
- NAs introduced by coercion
+            -   4: In na.omit(as.numeric(strsplit(part, "")[[1]])) : NAs introduced by coercion
 
         -   It produced the same results - 0 for non-survey years in Table_for_SS3
 
     -   I uploaded the scripts to github, so Cecilia can try it out
 
-### Presentation graphics
+### 10/25/21
 
-```{r presentation graphics}
+-   Priorities for this week:
 
+    -   Finish presentation slides before Wednesday - done
 
-```
+    -   Write research description for website
+
+    -   Build R on Hyak
+
+        -   it would be nice to run VAST once this week to try out the process, but this is low priority
+
+    -   If Cecilia hasn't gotten back to me by Wednesday check in with her about VAST implementation - she got back to me on Wednesday, and says that the model code looks good, so these results may be accurate
+
+    -   Convert the random walk resampled results to proportion of area, and run all of the proposed metrics by Thursday's meeting with collaborators - completed POA transformation with RE all data, VAST all data and RE resampled data, and ran MASE and MRE calculations and was able to show result plots at collaborators meeting on Thursday
+
+        -   Create plots with these results and put them in slides before the meeting
+
+        -   Also, update my abstract before Thursday - I don't think there's much to add, other than correcting how proportion of area is being used - done
+
+        -   There's nothing to compare them to currently, but I can at least try again to get real feedback about which metrics should be used
+
+            -   Actually, I could use the probably wonky VAST results, just to have something to compare (and to see exactly how wonky they are) - done
+
+    -   Ask Mark about test and train data in our meeting on Wednesday, and if it's something that I should have already done - the jackknife resampling is basically doing the same thing, so I don't need to do this at the beginning, and it doesn't make sense for this type of model anyway, which will be rerun every time there is new data to add
+
+    -   Write resampling code for VAST, so that at least is ready to go when I'm confident that the implementation is correct
+
+### 10/26/21
+
+-   I've been working on transforming the predicted biomass from the resampled datasets into proportion of area, and I'm running into an issue with the resampled dataset where 2001 is excluded, because there was no 2001 survey in the eastern subregion, for either species. Since I need estimates from all subregions in order to calculate a proportion of area, I think the only solution for this issue is to exclude those resampled datasets. Double-check this decision with Cecilia and/or Mark.
+
+-   Watching Madison Hall's groundfish presentation today - she is working on rockfish in the GOA, and probably has some good resources for performance of bottom trawl surveys (not great performance for rockfish), which should reinforce why VAST might be better than RE, even if there isn't a huge increase
+
+    -   Madison presented some VAST results, it looks like from Curry in 2018
+
+    -   The bottom trawl survey is stratified by depth - there is a minimum of 2 sites for each dept strata (this was unclear to me before)
+
+    -   She has done simulations of survey data - I should definitely contact her and ask if she can give me advice (and maybe her code) on how to do the spatial distribution simulation study I want to do
+
+    -   Look up Jones et al. 2021 - looked at habitat affinity for several species, including POP and NR
+
+### 10/28/21
+
+-   Questions/updates for collaborator meeting:
+
+    -   Update: completed RE resampling with jackknife method, VAST resampling still needs to be done
+
+    -   Review proportion of area plots, and verify that this is the transformation that Jim had in mind, and that this is what I should be using when calculating metrics
+
+    -   Review metric plots that are completed so far (MASE and MRE)
+
+        -   Try to get them to commit to a recommendation of which to use, or if there's a different one that would be better for measuring accuracy
+
+    -   Next step is to calculate CV and PV and compare those as metrics; I'll post them in the drive for review
+
+    -   Address idea to add in MARSS model to analysis - basically, I still want to try to do a simulation study of how different distributions are captured by the models, and time-wise I would like to prioritize that. If I can add in a MARSS model on top of that, then I will, but it might have to just be in my discussion as a good next step for someone to do.
+
+-   Meeting notes from collaborators meeting (Jim, Paul and Cecilia)
+
+    -   
 
 ### Misc. Article Notes
 
